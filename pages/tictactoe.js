@@ -26,11 +26,23 @@ export default class TicTacToe extends Component {
 
   getWinner = () => {
     const { board } = this.state
-    // Your code here
-    // if user wins return 'Player'
-    // if computer wins return 'Computer'
-    // if no winner and no free tiles return 'Nobody'
-    // no return otherwise
+    if (board[0] === 'X' && board[1] === 'X' && board[2] === 'X') return 'Player'
+    if (board[3] === 'X' && board[4] === 'X' && board[5] === 'X') return 'Player'
+    if (board[6] === 'X' && board[7] === 'X' && board[8] === 'X') return 'Player'
+    if (board[0] === 'X' && board[3] === 'X' && board[6] === 'X') return 'Player'
+    if (board[1] === 'X' && board[4] === 'X' && board[7] === 'X') return 'Player'
+    if (board[2] === 'X' && board[5] === 'X' && board[8] === 'X') return 'Player'
+    if (board[0] === 'X' && board[4] === 'X' && board[8] === 'X') return 'Player'
+    if (board[2] === 'X' && board[4] === 'X' && board[6] === 'X') return 'Player'
+    if (board[0] === 'O' && board[1] === 'O' && board[2] === 'O') return 'Computer'
+    if (board[3] === 'O' && board[4] === 'O' && board[5] === 'O') return 'Computer'
+    if (board[6] === 'O' && board[7] === 'O' && board[8] === 'O') return 'Computer'
+    if (board[0] === 'O' && board[3] === 'O' && board[6] === 'O') return 'Computer'
+    if (board[1] === 'O' && board[4] === 'O' && board[7] === 'O') return 'Computer'
+    if (board[2] === 'O' && board[5] === 'O' && board[8] === 'O') return 'Computer'
+    if (board[0] === 'O' && board[4] === 'O' && board[8] === 'O') return 'Computer'
+    if (board[2] === 'O' && board[4] === 'O' && board[6] === 'O') return 'Computer'
+    if (!board.filter(c => !c).length) return 'Nobody'
   }
 
   createClickHandler = idx => e => {
@@ -40,12 +52,14 @@ export default class TicTacToe extends Component {
     newBoard[idx] = 'X'
     if (!this.getWinner()) {
       // computer can move?
-      // const freeTileIndices = [] // your code here: keep every *index* from free tiles (newBoard.reduce)
+      const freeTileIndices = newBoard.reduce((p, c, i) => {
+        if (!c) p.push(i)
+        return p
+      }, [])
       if (freeTileIndices.length) {
         // computer move
         const randomIndex = Math.floor(freeTileIndices.length * Math.random())
         newBoard[freeTileIndices[randomIndex]] = 'O'
-        // smarter opponent? implement your own logic instead!
       }
     }
     this.setState({ board: newBoard })
